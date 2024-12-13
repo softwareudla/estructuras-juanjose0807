@@ -4,7 +4,7 @@
 
 void ingLibro(struct Biblio *libro, struct Biblio libros[], int *cant) {
     if (*cant >= 20) {
-        printf("No se pueden agregar más libros.\n");
+        printf("No se pueden agregar mas libros.\n");
         return;
     }
     
@@ -31,13 +31,13 @@ void ingLibro(struct Biblio *libro, struct Biblio libros[], int *cant) {
     } while (IDU==1);
 
   
-    printf("Ingrese el titulo: ");
+    printf("Ingrese titulo: ");
     fflush(stdin);
     fgets(libro->titulo, 100, stdin);
     libro->titulo[strcspn(libro->titulo, "\n")] = '\0';   
     
 
-    printf("Ingrese el autor: ");
+    printf("Ingrese autor: ");
     fflush(stdin);
     fgets(libro->autor, 50, stdin);
     libro->autor[strcspn(libro->autor, "\n")] = '\0'; 
@@ -48,7 +48,7 @@ void ingLibro(struct Biblio *libro, struct Biblio libros[], int *cant) {
         printf("Ingrese el año: ");
         scanf("%d", &libro->año);
         if (libro->año < 0) {
-            printf("El año no puede ser negativo, vuelva a intentar\n");
+            printf("El año no puede ser negativo, vuelva a ingresarlo\n");
         }
     } while (libro->año < 0);
 
@@ -75,22 +75,45 @@ void impLibros(struct Biblio libros[], int cant) {
 
 
 void buscLibro(struct Biblio libros[], int cant) {
-    int ID;
-    printf("Ingrese ID: ");
-    scanf("%d", &ID);
+    int op;
+    printf("Ingrese la opcion, 1 por ID, 2 por Titulo: ");
+    scanf("%d", &op);
 
-    for (int i = 0; i < cant; i++) {
-        if (libros[i].id == ID) {
-            printf("%d   %s   %s   %d   %s\n",
-                   libros[i].id, libros[i].titulo, libros[i].autor, libros[i].año, libros[i].estado);
-            
-        }else if (libros[i].id != ID) {
-        printf("Libro no encontrado.\n");  
+    if (op == 1) {
+        int ID;
+        printf("Ingrese ID: ");
+        scanf("%d", &ID);
+
+        for (int i = 0; i < cant; i++) {
+            if (libros[i].id == ID) {
+                printf("%d   %s   %s   %d   %s\n",
+                       libros[i].id, libros[i].titulo, libros[i].autor, libros[i].año, libros[i].estado);
+                return; 
+            }
         }
-    }
-   
-    
+       
+        printf("Libro no encontrado.\n");
+
+    } else if (op == 2) {
+        char titulo[100];
+        printf("Ingrese título: ");
+        fflush(stdin);
+        fgets(titulo, 100, stdin);
+        titulo[strcspn(titulo, "\n")] = '\0'; 
+
+        for (int i = 0; i < cant; i++) {
+            if (strcmp(libros[i].titulo, titulo) == 0) {
+                printf("%d   %s   %s   %d   %s\n",
+                       libros[i].id, libros[i].titulo, libros[i].autor, libros[i].año, libros[i].estado);
+                return; 
+            }
+        }
+        
+        printf("Libro no encontrado.\n");
+
+    } 
 }
+
 
 void Estado(struct Biblio libros[], int cant) {
     int ID;
@@ -131,3 +154,4 @@ void borrarLibro(struct Biblio libros[], int *total) {
     }
   
 }
+
